@@ -128,13 +128,15 @@ Docker Compose is provided to orchestrate all required services with minimal con
 ---
 
 ## API Documentation
-API endpoints are documented using Postman.
 
-🔗 **Postman Collection**  
-https://www.postman.com/your-postman-link-here
+All backend API endpoints are documented using **Postman**.  
+You can explore, test, and import the collection easily.
 
-> Replace the link above with the actual Postman collection URL.
+### 🔗 Postman Collection (Public)
 
+- **Download JSON:** [Postman Collection (JSON)](postman-collection.json)
+  > You can import this file into Postman by going to `File → Import → Upload Files`
+  
 ---
 
 ## Screenshots
@@ -143,24 +145,16 @@ https://www.postman.com/your-postman-link-here
 ![Homepage](FE/web-payment-gateway/img/Homepage.png)
 
 ### Payment Page
-![Payment Page](FE/web-payment-gateway/img/paymentPage.png)
+![Payment Page](FE/web-payment-gateway/img/PaymentPage.png)
 
 ### Payment Success
-![Payment Success](FE/web-payment-gateway/img/paymentSuccess.png)
+![Payment Success](FE/web-payment-gateway/img/PaymentSuccess.png)
 
 ---
 
 ## Project Status
 **Completed**  
 This project is intended for learning, demonstration, and technical assessment purposes.
-
----
-
-## Repository
-🔗 **GitHub Repository**  
-https://github.com/your-username/spring-payment-gateway
-
-> Replace the link above with the actual GitHub repository.
 
 ---
 
