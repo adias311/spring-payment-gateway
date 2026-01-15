@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+<head>
+    <title>Payment Gateway Integration </title>
+    <link rel="icon" href="images/dollar.png" type="image/png" sizes="16x16">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="application/x-javascript">
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,800,800italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#horizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion           
+                width: 'auto', //auto or any width like 600px
+                fit: true // 100% fit in a container
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- Demo bar start -->
+    <div id="w3lDemoBar" class="w3l-demo-bar">
+        <div class="main">
+            <div class="content">
+                <div class="sap_tabs">
+                    <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
+                        <div class="pay-tabs">
+                            <h2>Select Payment Method</h2>
+                            <ul class="resp-tabs-list">
+                                <li class="resp-tab-item" aria-controls="tab_item-0" role="tab"><span><label class="pic1"></label>BNI</span></li>
+                                <li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><span><label class="pic3"></label>Shopee Pay</span></li>
+                                <!-- <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span><label class="pic4"></label>Dana</span></li>
+                                <li class="resp-tab-item" aria-controls="tab_item-3" role="tab"><span><label class="pic2"></label>Alfamart</span></li> -->
+                                <div class="clear"></div>
+                            </ul>
+                        </div>
+                        <div class="resp-tabs-container">
+                            <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
+                                    <div class="payment-info">
+                                    <h3 class="pay-title shopee-pay">Donation Form BNI Virtual Account</h3>
+
+                                    <form class="payment-form">
+                                        <div class="tab-for">
+                                            <h5>Donator Name</h5>
+                                            <input class="pay-logo"
+                                                name="donator_name"
+                                                type="text"
+                                                placeholder="Enter the name"
+                                                required>
+                                        </div>
+
+                                        <div class="tab-for">
+                                            <h5>Amount</h5>
+                                            <input class="pay-logo"
+                                                name="amount"
+                                                type="text"
+                                                placeholder="Rp 00"
+                                                required>
+                                        </div>  
+                                        <a href="#"
+                                            class="confirm-btn"
+                                            data-payment-type="BNI_VIRTUAL_ACCOUNT">
+                                            DONATE
+                                        </a>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
+                                <div class="payment-info">
+                                    <h3 class="pay-title shopee-pay">Donation Form Shopee Pay</h3>
+
+                                    <form class="payment-form">
+                                        <div class="tab-for">
+                                            <h5>Donator Name</h5>
+                                            <input class="pay-logo"
+                                                name="donator_name"
+                                                type="text"
+                                                placeholder="Enter the name"
+                                                required>
+                                        </div>
+
+                                        <div class="tab-for">
+                                            <h5>Amount</h5>
+                                            <input class="pay-logo"
+                                                name="amount"
+                                                type="text"
+                                                placeholder="Rp 00"
+                                                required>
+                                        </div>                                         
+                                        <a href="#"
+                                            class="confirm-btn"
+                                            data-payment-type="SHOPEEPAY">
+                                            DONATE
+                                        </a>    
+                                    </form>
+                                </div>
+                            </div>                                
+                            <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
+                                
+                            </div>
+                            <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-3">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function() {
+        $('#horizontalTab').easyResponsiveTabs({ type:'default', width:'auto', fit:true });
+
+        document.body.addEventListener("click", function (event) {
+            const button = event.target.closest(".confirm-btn");
+            if (!button) return;
+            event.preventDefault();
+
+            const form = button.closest("form");
+            const donatorName = form.querySelector("input[name='donator_name']").value;
+            const amount = form.querySelector("input[name='amount']").value;
+            const paymentType = button.dataset.paymentType;
+
+            createPayment(paymentType, amount, donatorName);
+        });
+    });
+
+    function createPayment(type, amount, donator_name) {
+        const paymentData = {
+            donatorName: donator_name,
+            amount: amount,
+            paymentMethod : type
+        };
+
+        fetch('/api/payments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(paymentData)
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log('Payment response:', response);
+
+            const payment = response.paymentResponse;
+            const channelCode = payment.channel_code;
+
+            // ===== LOGIC SHOPEEPAY =====
+            if (channelCode === "SHOPEEPAY") {
+                const redirectAction = payment.actions.find(
+                    action => action.type === "REDIRECT_CUSTOMER"
+                );
+                if (redirectAction) {
+                    window.location.href = redirectAction.value;
+                }
+                return;
+            }
+
+            // ===== LOGIC VIRTUAL ACCOUNT =====
+            if (channelCode.includes("VIRTUAL_ACCOUNT")) {
+
+                const vaAction = payment.actions.find(
+                    action => 
+                        action.type === "PRESENT_TO_CUSTOMER" &&
+                        action.descriptor === "VIRTUAL_ACCOUNT_NUMBER"
+                );
+
+                if (!vaAction) {
+                    console.error("VA number not found in actions");
+                    return;
+                }
+
+                const paymentResponse = {
+                    amount: payment.request_amount,
+                    vaNumber: vaAction.value,
+                    expiresAt: payment.channel_properties.expires_at
+                };
+
+                // Encode query param
+                const query = new URLSearchParams(paymentResponse).toString();
+
+                // Redirect ke halaman VA
+                window.location.href = `/PaymentVirtualAccount.html?${query}`;
+            }
+        })
+        .catch(err => {
+            console.error("Payment error:", err);
+        });
+    }
+
+</script>

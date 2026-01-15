@@ -1,5 +1,11 @@
 # Spring Payment Gateway Integration
 
+![Java](https://img.shields.io/badge/Java-21-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.9-brightgreen)
+![Redis](https://img.shields.io/badge/Redis-latest-red)
+![Docker](https://img.shields.io/badge/Docker-28.2.2-blue)
+![Docker Compose](https://img.shields.io/badge/Docker%20Compose-3.9-darkblue)
+
 A web-based payment system built with **Spring Boot** that demonstrates the integration of a third-party payment gateway (**Xendit**) to handle online transactions.  
 This project focuses on clean architecture, backend integration, webhook handling, caching, and containerized deployment rather than UI complexity.
 

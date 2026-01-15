@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+  spring-payment-gateway:
+    image: adiasafnan/spring-payment-gateway:latest
+    container_name: spring-payment-gateway
+    expose:
+      - "8080"
+    environment:
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: ngrok
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+    command: ["http", "spring-payment-gateway:8080"]
+    depends_on:
+      - spring-payment-gateway
+    restart: unless-stopped
+
+  web-payment-gateway:
+    image: adiasafnan/web-payment-gateway:latest
+    container_name: web-payment-gateway
+    ports:
+      - "80:80"
+    depends_on:
+      - spring-payment-gateway
+    restart: unless-stopped
+
+volumes:
+  redis-data:
